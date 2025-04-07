@@ -1,12 +1,1316 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEFOM-Stereo: Depth Foundation Model Based Stereo Matching</title>
+  <meta name="viewport" content="width=device-width, initial-scale=0.2">
+  <meta charset="utf-8">
+  <meta name="description"
+        content="DEFOM-Stereo: Depth Foundation Model Based Stereo Matching">
+  <meta name="keywords" content="Depth Foundation Model, Stereo Matching">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DEFOM-Stereo: Depth Foundation Model Based Stereo Matching</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./images/Logo.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="./static/js/script.js"></script>
+
+  
+  <script type="text/x-mathjax-config">
+		MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+	</script>
+	<script type="text/javascript"
+  		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	</script>
+
 </head>
+
+
 <body>
-    <h1>DEFOM-Stereo: Depth Foundation Model Based Stereo Matching!</h1>
-    <a href="https://github.com/Insta360-Research-Team/DEFOM-Stereo" target="_blank">Code</a>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://hualie.github.io/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://github.com/Insta360-Research-Team/RomniStereo">
+            RomiStereo
+          </a>
+        </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">DEFOM-Stereo: Depth Foundation Model Based Stereo Matching</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://hualie.github.io/">Hualie Jiang</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://openreview.net/profile?id=~Zhiqiang_Lou1">Zhiqiang Lou</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://denyingmxd.github.io/">Laiyan Ding</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://openreview.net/profile?id=~Rui_Xu20">Rui Xu</a><sup>1</sup>,</span>
+            </span>
+            <span class="author-block">
+              <a href="https://github.com/meyiao">Minglang Tan</a><sup>1</sup>,</span>
+            </span>
+            <span class="author-block">
+              <a href="https://github.com/jerett">Wenjie Jiang</a><sup>1</sup>,</span>
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=t8UduWwAAAAJ&hl=en">Rui Huang</a><sup>2</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Insta360 Research</span>
+            <span class="author-block"><sup>2</sup>The Chinese University of Hong Kong, Shenzhen</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><b>CVPR 2025</b></span>
+            </div>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="http://arxiv.org/abs/2501.09466"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="http://arxiv.org/abs/2501.09466"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/Insta360-Research-Team/DEFOM-Stereo"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            <div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-full-touch">
+      <h2 class="title is-3">Benchmarking Results</h2>
+      <h3 class="title is-4">Comparsion with Previous SOTA Methods</h3>
+      <div class="container" style="margin-bottom: 30px;">
+        <div id="results-carousel" class="carousel results-carousel">
+  
+          <div class="img-grid-1">
+            <div class="image-container">
+              <img src="images/benchmarking.svg" width="100%">
+            </div>
+          </div>
+  
+          <div class="img-grid-3">
+            <div class="image-container">
+              <div class="caption">KITTI 2012</div>
+              <img src="./images/figs/main/kitti2012_000009_10.jpg" width="100%">
+            </div>
+
+            <div class="image-container">
+              <div class="caption">ViTAStereo</div>
+              <img src="./images/figs/main/kitti2012_000009_10_ViTAStereo.jpg" width="100%">
+            </div>
+
+            <div class="image-container">
+              <div class="caption">DEFOM-Stereo</div>
+              <img src="./images/figs/main/kitti2012_000009_10_defomstereo.jpg" width="100%">
+            </div>
+
+            <div class="image-container">
+              <div class="caption">Middlebury</div>
+              <img src="./images/figs/main/Stairs_left.jpg" width="100%">
+            </div>
+
+            <div class="image-container">
+              <div class="caption">Selective-IGEV</div>
+              <img src="./images/figs/main/Stairs_seligev.jpg" width="100%">
+            </div>
+
+            <div class="image-container">
+              <div class="caption">DEFOM-Stereo</div>
+              <img src="./images/figs/main/Stairs_defom.jpg" width="100%">
+            </div>
+            
+            <div class="image-container">
+              <div class="caption">ETH3D</div>
+              <img src="./images/figs/main/storage_room_2s_left.jpg" width="100%">
+            </div>
+
+            <div class="image-container">
+              <div class="caption">LoS</div>
+              <img src="./images/figs/main/storage_room_2s_los.jpg" width="100%">
+            </div>
+
+            <div class="image-container">
+              <div class="caption">DEFOM-Stereo</div>
+              <img src="./images/figs/main/storage_room_2s_defom.jpg" width="100%">
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <h3 class="title is-4">Top Ranks on Stereo Leaderboards</h3>
+      <div class="container">
+        <div id="results-carousel" class="carousel results-carousel">
+  
+          <div class="img-grid-1">
+            <div class="image-container">
+              <div class="caption"><a href="https://vision.middlebury.edu/stereo/eval3/">Middlebury</a>
+              </div>
+              <img src="./images/middlebury_rms_all.svg" width="100%">
+            </div>
+          </div>
+  
+          <div class="img-grid-1">
+            <div class="image-container">
+              <div class="caption"><a href="https://www.cvlibs.net/datasets/kitti/eval_scene_flow.php?benchmark=stereo">KITTI 2015</a>
+              </div>
+              <img src="./images/kitti15.svg" width="100%">
+            </div>
+          </div>
+  
+          <div class="img-grid-1">
+            <div class="image-container">
+              <div class="caption"><a href="https://www.cvlibs.net/datasets/kitti/eval_stereo_flow.php?benchmark=stereo">KITTI 2012</a></div>
+              <img src="./images/kitti12.svg" width="100%">
+            </div>
+          </div>
+
+          <div class="img-grid-1">
+            <div class="image-container">
+              <div class="caption"><a href="https://www.eth3d.net/low_res_two_view?mask=all&metric=avgerr">ETH3D</a>
+              </div>
+              <img src="./images/eth3d_avgerr_all.svg" width="100%">
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p> Stereo matching is a key technique for metric depth estimation in computer vision and robotics. Real-world challenges like occlusion and non-texture hinder accurate disparity estimation from binocular matching cues. Recently, monocular relative depth estimation has shown remarkable generalization using vision foundation models. Thus, to facilitate robust stereo matching with monocular depth cues, we incorporate a robust monocular relative depth model into the recurrent stereo-matching framework, building a new framework for depth foundation model-based stereo-matching, DEFOM-Stereo. In the feature extraction stage, we construct the combined context and matching feature encoder by integrating features from conventional CNNs and DEFOM. In the update stage, we use the depth predicted by DEFOM to initialize the recurrent disparity and introduce a scale update module to refine the disparity at the correct scale. DEFOM-Stereo is verified to have much stronger zero-shot generalization compared with SOTA methods. Moreover, DEFOM-Stereo achieves top performance on the KITTI 2012, KITTI 2015, Middlebury, and ETH3D benchmarks, ranking $1^{st}$ on many metrics. In the joint evaluation under the robust vision challenge, our model simultaneously outperforms previous models on the individual benchmarks, further demonstrating its outstanding capabilities.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Pipeline</h2>
+        <figure class="huge-image-container">
+          <img src="images/figs/main/framework.svg" alt="defomstereo" style="width: 100%; height: auto;">
+        </figure>
+        <div class="content has-text-justified">
+          <ul> 
+            <li>We propose <b>a novel recurrent stereo-matching framework incorporating monocular depth cues</b> from a depth foundation model to improve robustness.</li>
+            <li>We develop a simple technique that utilizes <b>pre-trained DEFOM features</b> to construct stronger <b>combined feature and context encoders</b>.</li>
+            <li>We invent <b>a recurrent scale update</b> module empowered with the <b>scale lookup</b>, serving to recover accurate pixel-wise scales for the coarse DEFOM depth.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Ablation Study</h2>
+        <figure class="huge-image-container">
+          <img src="images/ablation.svg" alt="defomstereo" style="width: 100%; height: auto; max-width: 900px;">
+        </figure>
+        <div class="content has-text-justified">
+          <p> 
+            Ablation study of proposed methods on the Scene Flow test set and zero-shot generation. 
+            The baseline is RAFT-Stereo with two levels of correlation pyramids. 
+            The parameters counted here are the trainable ones. The time is the inference time for 960$\times$540 inputs. 
+            †<em>We found that pre-defining the neighbor sampling indexes within the search radius can significantly accelerate the inference 
+              instead of repeatedly defining them in every lookup as RAFT-Stereo's implementation.  We also apply this trick to the baseline, 
+              otherwise, its inference time would be 0.329s.</em>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section class="section">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-touch">
+        <h2 class="title is-3">Robust Vision Challenge</h2>
+        <h3 class="title is-4">Quantitative Results</h3>
+        <figure class="huge-image-container">
+          <img src="images/rvc.svg" alt="defomstereo" style="width: 100%; height: auto; max-width: 800px;">
+        </figure>
+        <div class="content has-text-justified">
+        </div>
+        <h3 class="title is-4">Visual Comparison</h3>
+        <div class="container">
+          <div id="results-carousel" class="carousel results-carousel">
+                
+                <div class="img-grid-2" style="max-width: 800px;">
+                  <div class="image-container">
+                    <div class="caption">KITT 2015</div>
+                    <img src="./images/figs/rvc/kitti2015_000002_10.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">KITT 2015</div>
+                    <img src="./images/figs/rvc/kitti2015_000006_10.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">UCFNet_RVC</div>
+                    <img src="./images/figs/rvc/kitti2015_000002_10_ucfnet_pred.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">UCFNet_RVC</div>
+                    <img src="./images/figs/rvc/kitti2015_000006_10_ucfnet_pred.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">DEFOM-Stereo_RVC</div>
+                    <img src="./images/figs/rvc/kitti2015_000002_10_defomstereo_pred.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">DEFOM-Stereo_RVC</div>
+                    <img src="./images/figs/rvc/kitti2015_000006_10_defomstereo_pred.jpg" width="100%">
+                  </div>
+                
+                </div>
+  
+                <div class="img-grid-3">
+                  <div class="image-container">
+                    <div class="caption">Middlebury</div>
+                    <img src="./images/figs/rvc/middlebury_compu.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">CREStereo++_RVC</div>
+                    <img src="./images/figs/rvc/middlebury_compu_crestereopp.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">DEFOM-Stereo_RVC</div>
+                    <img src="./images/figs/rvc/middlebury_compu_defomstereo.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">Middlebury</div>
+                    <img src="./images/figs/rvc/middlebury_stairs.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">CREStereo++_RVC</div>
+                    <img src="./images/figs/rvc/middlebury_stairs_crestereopp.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">DEFOM-Stereo_RVC</div>
+                    <img src="./images/figs/rvc/middlebury_stairs_defomstereo.jpg" width="100%">
+                  </div>
+                
+                </div>
+  
+                <div class="img-grid-3">
+                  <div class="image-container">
+                    <div class="caption">ETH3D</div>
+                    <img src="./images/figs/rvc/eth3d_lakeside_s.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">LoS_RVC</div>
+                    <img src="./images/figs/rvc/eth3d_lakeside_s_los.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">DEFOM-Stereo_RVC</div>
+                    <img src="./images/figs/rvc/eth3d_lakeside_s_defomstereo.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">ETH3D</div>
+                    <img src="./images/figs/rvc/eth3d_tunnel_3s.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">LoS_RVC</div>
+                    <img src="./images/figs/rvc/eth3d_tunnel_3s_los.jpg" width="100%">
+                  </div>
+  
+                  <div class="image-container">
+                    <div class="caption">DEFOM-Stereo_RVC</div>
+                    <img src="./images/figs/rvc/eth3d_tunnel_3s_defomstereo.jpg" width="100%">
+                  </div>
+                
+                </div>
+  
+          </div>
+        </div>
+      </div>
+
+    </div>
+</section>
+
+
+
+<section class="section">
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-full-touch">
+      <h2 class="title is-3">Zero-shot Comparision on Benchmark Datasets</h2>
+      <h3 class="title is-4">Quantitative Results</h3>
+      <figure class="huge-image-container">
+        <img src="images/zeroshot_tab.svg" alt="zeroshot" style="width: 100%; height: auto; max-width: 700px;">
+      </figure>
+      <div class="content has-text-justified">
+      </div>
+      <h3 class="title is-4">Visual Comparison</h3>
+      <div class="container">
+        <div id="results-carousel" class="carousel results-carousel">
+              
+              <div class="img-grid-3">
+                <div class="image-container">
+                  <div class="caption">Middlebury (full)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_ArtL_1.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-S)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_ArtL_defomstereos.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-L)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_ArtL_defomstereol.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">RAFT-Stereo</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_ArtL_raftstereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Mocha-Stereo</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_ArtL_mochastereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Selective-IGEV</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_ArtL_seligev.jpg" width="100%">
+                </div>
+                
+              </div>
+
+              <div class="img-grid-3" style="max-width: 840px;">
+                <div class="image-container">
+                  <div class="caption">Middlebury (full)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_Jadeplant_1.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-S)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_Jadeplant_defomstereos.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-L)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_Jadeplant_defomstereol.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">RAFT-Stereo</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_Jadeplant_raftstereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Mocha-Stereo</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_Jadeplant_mochastereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Selective-IGEV</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_Jadeplant_seligev.jpg" width="100%">
+                </div>
+                
+              </div>
+
+              <div class="img-grid-3" style="max-width: 900px;">
+                <div class="image-container">
+                  <div class="caption">Middlebury (full)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_Playroom_1.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-S)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_Playroom_defomstereos.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-L)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_Playroom_defomstereol.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">RAFT-Stereo</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_Playroom_raftstereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Mocha-Stereo</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_Playroom_mochastereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Selective-IGEV</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingF_Playroom_seligev.jpg" width="100%">
+                </div>
+                
+              </div>
+
+              <div class="img-grid-3" style="max-width: 900px;">
+                <div class="image-container">
+                  <div class="caption">Middlebury (half)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingH_Piano_1.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-S)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingH_Piano_defomstereos.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-L)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingH_Piano_defomstereol.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">RAFT-Stereo</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingH_Piano_raftstereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Mocha-Stereo</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingH_Piano_mochastereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Selective-IGEV</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingH_Piano_seligev.jpg" width="100%">
+                </div>
+                
+              </div>
+
+              <div class="img-grid-3"  style="max-width: 900px;">
+                <div class="image-container">
+                  <div class="caption">Middlebury (half)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingH_Vintage_1.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-S)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingH_Vintage_defomstereos.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-L)</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingH_Vintage_defomstereol.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">RAFT-Stereo</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingH_Vintage_raftstereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Mocha-Stereo</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingH_Vintage_mochastereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Selective-IGEV</div>
+                  <img src="./images/figs/zeroshot/middlebury/trainingH_Vintage_seligev.jpg" width="100%">
+                </div>
+                
+              </div>
+
+
+              <div class="img-grid-3" style="max-width: 900px; margin-top: 18px;">
+                <div class="image-container">
+                  <div class="caption">ETH3D</div>
+                  <img src="./images/figs/zeroshot/eth3d/playground_3s_1.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-S)</div>
+                  <img src="./images/figs/zeroshot/eth3d/playground_3s_defomstereos.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-L)</div>
+                  <img src="./images/figs/zeroshot/eth3d/playground_3s_defomstereol.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">RAFT-Stereo</div>
+                  <img src="./images/figs/zeroshot/eth3d/playground_3s_raftstereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Mocha-Stereo</div>
+                  <img src="./images/figs/zeroshot/eth3d/playground_3s_mochastereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Selective-IGEV</div>
+                  <img src="./images/figs/zeroshot/eth3d/playground_3s_seligev.jpg" width="100%">
+                </div>
+                
+              </div>
+
+
+              <div class="img-grid-3" style="max-width: 900px; margin-top: 18px;">
+                <div class="image-container">
+                  <div class="caption">ETH3D</div>
+                  <img src="./images/figs/zeroshot/eth3d/terrains_2s_1.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-S)</div>
+                  <img src="./images/figs/zeroshot/eth3d/terrains_2s_defomstereos.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-L)</div>
+                  <img src="./images/figs/zeroshot/eth3d/terrains_2s_defomstereol.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">RAFT-Stereo</div>
+                  <img src="./images/figs/zeroshot/eth3d/terrains_2s_raftstereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Mocha-Stereo</div>
+                  <img src="./images/figs/zeroshot/eth3d/terrains_2s_mochastereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Selective-IGEV</div>
+                  <img src="./images/figs/zeroshot/eth3d/terrains_2s_seligev.jpg" width="100%">
+                </div>
+                
+              </div>
+
+
+              <div class="img-grid-2" style="max-width: 820px;">
+                <div class="image-container">
+                  <div class="caption">KITT 2012</div>
+                  <img src="./images/figs/zeroshot/kitti12/000027_10_1.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-S)</div>
+                  <img src="./images/figs/zeroshot/kitti12/000027_10_defomstereos.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">RAFT-Stereo</div>
+                  <img src="./images/figs/zeroshot/kitti12/000027_10_raftstereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-L)</div>
+                  <img src="./images/figs/zeroshot/kitti12/000027_10_defomstereol.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Mocha-Stereo</div>
+                  <img src="./images/figs/zeroshot/kitti12/000027_10_mochastereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Selective-IGEV</div>
+                  <img src="./images/figs/zeroshot/kitti12/000027_10_seligev.jpg" width="100%">
+                </div>
+              </div>
+
+              <div class="img-grid-2" style="max-width: 820px;">
+                <div class="image-container">
+                  <div class="caption">KITT 2012</div>
+                  <img src="./images/figs/zeroshot/kitti12/000087_10_1.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">RAFT-Stereo</div>
+                  <img src="./images/figs/zeroshot/kitti12/000087_10_raftstereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-S)</div>
+                  <img src="./images/figs/zeroshot/kitti12/000087_10_defomstereos.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-L)</div>
+                  <img src="./images/figs/zeroshot/kitti12/000087_10_defomstereol.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Mocha-Stereo</div>
+                  <img src="./images/figs/zeroshot/kitti12/000087_10_mochastereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Selective-IGEV</div>
+                  <img src="./images/figs/zeroshot/kitti12/000087_10_seligev.jpg" width="100%">
+                </div>
+              </div>
+
+              <div class="img-grid-2" style="max-width: 820px;">
+                <div class="image-container">
+                  <div class="caption">KITT 2015</div>
+                  <img src="./images/figs/zeroshot/kitti15/000073_10_1.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-S)</div>
+                  <img src="./images/figs/zeroshot/kitti15/000073_10_defomstereos.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">RAFT-Stereo</div>
+                  <img src="./images/figs/zeroshot/kitti15/000073_10_raftstereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-L)</div>
+                  <img src="./images/figs/zeroshot/kitti15/000073_10_defomstereol.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Mocha-Stereo</div>
+                  <img src="./images/figs/zeroshot/kitti15/000073_10_mochastereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Selective-IGEV</div>
+                  <img src="./images/figs/zeroshot/kitti15/000073_10_seligev.jpg" width="100%">
+                </div>
+              </div>
+
+              <div class="img-grid-2" style="max-width: 820px;">
+                <div class="image-container">
+                  <div class="caption">KITT 2015</div>
+                  <img src="./images/figs/zeroshot/kitti15/000104_10_1.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-S)</div>
+                  <img src="./images/figs/zeroshot/kitti15/000104_10_defomstereos.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">RAFT-Stereo</div>
+                  <img src="./images/figs/zeroshot/kitti15/000104_10_raftstereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">DEFOM-Stereo (ViT-L)</div>
+                  <img src="./images/figs/zeroshot/kitti15/000104_10_defomstereol.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Mocha-Stereo</div>
+                  <img src="./images/figs/zeroshot/kitti15/000104_10_mochastereo.jpg" width="100%">
+                </div>
+
+                <div class="image-container">
+                  <div class="caption">Selective-IGEV</div>
+                  <img src="./images/figs/zeroshot/kitti15/000104_10_seligev.jpg" width="100%">
+                </div>
+              </div>
+
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+<section class="hero is-small" style="margin-top: 30px; padding-top: 0px;">
+  <h2 class="title is-3" style="text-align: center;">Zeroshot Comparison on <span style="color: #4FACFA;">Flickr 1024</span></h2>
+  <div class="hero-body">
+    
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        
+        <div class="img-grid-2" style="max-width: 700px;">
+          <div class="image-container">
+            <div class="caption">Left Image</div>
+            <img src="./images/figs/zeroshot/flickr1024/Validation0098_L.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-S)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Validation0098_L_defomstereos.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">RAFT-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Validation0098_L_raftstereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-L)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Validation0098_L_defomstereol.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Mocha-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Validation0098_L_mochastereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Selective-IGEV</div>
+            <img src="./images/figs/zeroshot/flickr1024/Validation0098_L_seligev.jpg" width="100%">
+          </div>
+        
+        </div>
+
+
+        <div class="img-grid-2">
+          <div class="image-container">
+            <div class="caption">Left Image</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0096_L.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-S)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0096_L_defomstereos.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">RAFT-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0096_L_raftstereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-L)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0096_L_defomstereol.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Mocha-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0096_L_mochastereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Selective-IGEV</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0096_L_seligev.jpg" width="100%">
+          </div>
+        
+        </div>
+
+        <div class="img-grid-2">
+          <div class="image-container">
+            <div class="caption">Left Image</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0099_L.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-S)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0099_L_defomstereos.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">RAFT-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0099_L_raftstereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-L)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0099_L_defomstereol.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Mocha-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0099_L_mochastereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Selective-IGEV</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0099_L_seligev.jpg" width="100%">
+          </div>
+        
+        </div>
+
+        <div class="img-grid-3" style="max-width: 820px;">
+          <div class="image-container">
+            <div class="caption">Left Image</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0099_L.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-S)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0099_L_defomstereos.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-L)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0099_L_defomstereol.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">RAFT-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0099_L_raftstereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Mocha-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0099_L_mochastereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Selective-IGEV</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0099_L_seligev.jpg" width="100%">
+          </div>
+        
+        </div>
+
+        <div class="img-grid-3" style="max-width: 840px;">
+          <div class="image-container">
+            <div class="caption">Left Image</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0253_L.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-S)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0253_L_defomstereos.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-L)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0253_L_defomstereol.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">RAFT-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0253_L_raftstereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Mocha-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0253_L_mochastereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Selective-IGEV</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0253_L_seligev.jpg" width="100%">
+          </div>
+        
+        </div>
+
+        <div class="img-grid-3" style="max-width: 840px;">
+          <div class="image-container">
+            <div class="caption">Left Image</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0325_L.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-S)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0325_L_defomstereos.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-L)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0325_L_defomstereol.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">RAFT-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0325_L_raftstereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Mocha-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0325_L_mochastereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Selective-IGEV</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0325_L_seligev.jpg" width="100%">
+          </div>
+        
+        </div>
+
+        <div class="img-grid-3" style="max-width: 880px;">
+          <div class="image-container">
+            <div class="caption">Left Image</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0211_L.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-S)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0211_L_defomstereos.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-L)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0211_L_defomstereol.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">RAFT-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0211_L_raftstereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Mocha-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0211_L_mochastereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Selective-IGEV</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0211_L_seligev.jpg" width="100%">
+          </div>
+        
+        </div>
+
+        <div class="img-grid-3" style="max-width: 880px; margin-top: 60px;">
+          <div class="image-container">
+            <div class="caption">Left Image</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0039_L.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-S)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0039_L_defomstereos.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-L)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0039_L_defomstereol.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">RAFT-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0039_L_raftstereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Mocha-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0039_L_mochastereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Selective-IGEV</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0039_L_seligev.jpg" width="100%">
+          </div>
+        
+        </div>
+
+        <div class="img-grid-3" style="max-width: 880px; margin-top: 72px;">
+          <div class="image-container">
+            <div class="caption">Left Image</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0092_L.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-S)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0092_L_defomstereos.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-L)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0092_L_defomstereol.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">RAFT-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0092_L_raftstereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Mocha-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0092_L_mochastereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Selective-IGEV</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0092_L_seligev.jpg" width="100%">
+          </div>
+        
+        </div>
+
+        <div class="img-grid-2" style="max-width: 860px; margin-top: 30px;">
+          <div class="image-container">
+            <div class="caption">Left Image</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0080_L.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-S)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0080_L_defomstereos.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">RAFT-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0080_L_raftstereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-L)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0080_L_defomstereol.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Mocha-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0080_L_mochastereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Selective-IGEV</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0080_L_seligev.jpg" width="100%">
+          </div>
+        
+        </div>
+
+        <div class="img-grid-2">
+          <div class="image-container">
+            <div class="caption">Left Image</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0107_L.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-S)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0107_L_defomstereos.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">RAFT-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0107_L_raftstereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-L)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0107_L_defomstereol.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Mocha-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0107_L_mochastereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Selective-IGEV</div>
+            <img src="./images/figs/zeroshot/flickr1024/Test0107_L_seligev.jpg" width="100%">
+          </div>
+        
+        </div>
+
+        <div class="img-grid-2">
+          <div class="image-container">
+            <div class="caption">Left Image</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0744_L.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-S)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0744_L_defomstereos.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">RAFT-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0744_L_raftstereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">DEFOM-Stereo (ViT-L)</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0744_L_defomstereol.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Mocha-Stereo</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0744_L_mochastereo.jpg" width="100%">
+          </div>
+
+          <div class="image-container">
+            <div class="caption">Selective-IGEV</div>
+            <img src="./images/figs/zeroshot/flickr1024/Train0744_L_seligev.jpg" width="100%">
+          </div>
+        
+        </div>
+
+
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <div style="position: relative;">
+      <pre><code id="bibtex-code">@misc{jiang2025defomstereo,
+    title={DEFOM-Stereo: Depth Foundation Model Based Stereo Matching},
+    author={Hualie Jiang and Zhiqiang Lou and Laiyan Ding and Rui Xu and Minglang Tan and Wenjie Jiang and Rui Huang},
+    year={2025},
+    eprint={2501.09466},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
+}</code></pre>
+      <button class="button is-small" onclick="copyBibtex()" 
+              style="position: absolute; top: 0.5rem; right: 0.5rem; opacity: 0.7; transition: opacity 0.2s;"
+              onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+        <span class="icon">
+          <i class="fas fa-copy"></i>
+        </span>
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="https://arxiv.org/abs/2501.09466">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/Insta360-Research-Team/DEFOM-Stereo" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="content">
+        <p>
+          The template is borrowed from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
 </body>
 </html>
