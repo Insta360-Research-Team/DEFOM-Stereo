@@ -5,13 +5,13 @@ This is the repository that contains source code for the [DEFOM-Stereo website](
 If you find DEFOM-Stereo useful for your work please cite:
 
 ```
-@misc{jiang2025defomstereo,
-    title={DEFOM-Stereo: Depth Foundation Model Based Stereo Matching},
-    author={Hualie Jiang and Zhiqiang Lou and Laiyan Ding and Rui Xu and Minglang Tan and Wenjie Jiang and Rui Huang},
-    year={2025},
-    eprint={2501.09466},
-    archivePrefix={arXiv},
-    primaryClass={cs.CV}
+@InProceedings{Jiang_2025_CVPR,
+    author    = {Jiang, Hualie and Lou, Zhiqiang and Ding, Laiyan and Xu, Rui and Tan, Minglang and Jiang, Wenjie and Huang, Rui},
+    title     = {DEFOM-Stereo: Depth Foundation Model Based Stereo Matching},
+    booktitle = {Proceedings of the Computer Vision and Pattern Recognition Conference (CVPR)},
+    month     = {June},
+    year      = {2025},
+    pages     = {21857-21867}
 }
 ```
 
